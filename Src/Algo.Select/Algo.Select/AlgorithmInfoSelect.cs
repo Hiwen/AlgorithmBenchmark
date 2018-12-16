@@ -12,7 +12,7 @@ namespace Algo.Select
     /// </summary>
     public class AlgorithmInfoSelect : IAlgorithmInfo
     {
-        public string Name => "数据快速筛选";
+        public string Name => "0001.数据快速筛选";
 
         public string Desc => "从指定的集合中快速筛选出某些数据";
 
