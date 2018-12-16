@@ -25,18 +25,17 @@
         <ComboBox x:Name="cmbAlgos" Margin="3,9,3.4,10" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="21" Grid.Column="1" SelectionChanged="cmbAlgos_SelectionChanged" />
         <TextBox x:Name="teTestTime" Height="23" Margin="2.4,9,2.6,8" TextWrapping="Wrap" Text="10" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
 
-        <lvc:CartesianChart x:Name="chtResult" LegendLocation="None" Grid.Row="1" Grid.ColumnSpan="5">
-            <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="耗时(ms)" ></lvc:Axis>
-            </lvc:CartesianChart.AxisX>
-            <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="用户" ></lvc:Axis>
-            </lvc:CartesianChart.AxisY>
-            <lvc:CartesianChart.DataTooltip>
-                <lvc:DefaultTooltip SelectionMode="SharedYValues"></lvc:DefaultTooltip>
-            </lvc:CartesianChart.DataTooltip>
-        </lvc:CartesianChart>
         <Button x:Name="btnBench" Content="测试" Margin="3.4,9,2.6,8" VerticalAlignment="Center" Height="23" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4" RenderTransformOrigin="0.502,0.5" Click="btnBench_Click"/>
         <ProgressBar x:Name="progress" Height="20" Margin="0" Grid.Row="2" VerticalAlignment="Bottom" Grid.ColumnSpan="5" VerticalContentAlignment="Bottom"/>
+        <TabControl x:Name="tabResult" Grid.ColumnSpan="5" Grid.Row="1" RenderTransformOrigin="0.579,0.568" Margin="10,10,9.6,10" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem x:Name="TabChartResult" Header="图示结果">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="16*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

@@ -45,38 +45,52 @@ namespace AlgorithmBenchmark
 
         void InitWindow()
         {
-            var res = new Dictionary<string, TestResult>();
-            res.Add("张三", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 200});
-            res.Add("李四", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 500 });
-            res.Add("王五", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 400 });
-            UpdateChart(res);
 
-            IEnumerable<IAlgorithmInfo> tps = null;
-            var loadTopics = new Action(() => tps = _loadert.GetAllAlgoInfos(
-                p => SetProgress(p)));
-
-            loadTopics.BeginInvoke(o =>
+            if (ResultCtrls.ResultCtrl != null && ResultCtrls.ResultCtrl.Count() > 0)
             {
-                InvokeThis(() =>
+                tabResult.Items.Clear();
+                foreach (var item in ResultCtrls.ResultCtrl)
                 {
-                    if (tps != null)
+                    tabResult.Items.Add(new TabItem()
                     {
-                        cmbAlgos.Items.Clear();
+                        Header = item.Title,
+                        Content = item.Ctrl
+                    });
+                }
 
-                        foreach (var item in tps)
+                var res = new Dictionary<string, TestResult>();
+                res.Add("张三", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 200 });
+                res.Add("李四", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 500 });
+                res.Add("王五", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 400 });
+                UpdateResult(res);
+
+                IEnumerable<IAlgorithmInfo> tps = null;
+                var loadTopics = new Action(() => tps = _loadert.GetAllAlgoInfos(
+                    p => SetProgress(p)));
+
+                loadTopics.BeginInvoke(o =>
+                {
+                    InvokeThis(() =>
+                    {
+                        if (tps != null)
                         {
-                            cmbAlgos.Items.Add(new TopicItem(item));
-                        }
+                            cmbAlgos.Items.Clear();
 
-                        if (cmbAlgos.Items.Count > 0)
-                        {
-                            cmbAlgos.SelectedIndex = 0;
-                        }
+                            foreach (var item in tps)
+                            {
+                                cmbAlgos.Items.Add(new TopicItem(item));
+                            }
 
-                        cmbAlgos.Items.Add("请您期待其他测试... ...");
-                    }
-                });
-            }, null);
+                            if (cmbAlgos.Items.Count > 0)
+                            {
+                                cmbAlgos.SelectedIndex = 0;
+                            }
+
+                            cmbAlgos.Items.Add("请您期待其他测试... ...");
+                        }
+                    });
+                }, null);
+            }
         }
 
         private void btnBench_Click(object sender, RoutedEventArgs e)
@@ -125,7 +139,7 @@ namespace AlgorithmBenchmark
                             SetProgress(100);
                             if (res != null && res.Count > 0)
                             {
-                                UpdateChart(res);
+                                UpdateResult(res);
                                 return;
                             }
                             else
@@ -146,24 +160,12 @@ namespace AlgorithmBenchmark
         public string[] Labels { get; set; }
         public Func<double, string> Formatter { get; set; }
 
-        void UpdateChart(IDictionary<string, TestResult> res)
+        IDictionary<string, TestResult> _result;
+
+        void UpdateResult(IDictionary<string, TestResult> res)
         {
-            var list = res.ToList();
-            list.Sort((a, b) => a.Value.TimeCost < b.Value.TimeCost ? 1 : -1);
-
-            chtResult.Series = new SeriesCollection
-            {
-                new RowSeries
-                {
-                    Title = "Time",
-                    Values = new ChartValues<double>(list.Select(v => v.Value.TimeCost))
-                }
-            };
-
-            chtResult.AxisX[0].LabelFormatter = v => v.ToString();
-            chtResult.AxisX[0].Title = "Time(ms)";
-            chtResult.AxisY[0].Title = "Users";
-            chtResult.AxisY[0].Labels = list.Select(v => v.Key).ToArray();
+            _result = res;
+            UpdateResult();
         }
 
         IDictionary<string, TestResult> Merge(IDictionary<string, TestResult> dst, IDictionary<string, TestResult> src)
@@ -203,6 +205,19 @@ namespace AlgorithmBenchmark
                     }
                 }
             });
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateResult();
+        }
+
+        void UpdateResult()
+        {
+            if (tabResult.SelectedIndex > -1 && tabResult.SelectedIndex < ResultCtrls.ResultCtrl.Count())
+            {
+                ResultCtrls.ResultCtrl[tabResult.SelectedIndex]?.ShowResult(_result);
+            }
         }
     }
 

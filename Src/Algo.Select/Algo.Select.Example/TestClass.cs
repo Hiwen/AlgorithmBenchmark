@@ -8,7 +8,7 @@ namespace Algo.Select.Example
 {
     public class TestClass : IAlgorithmSelect
     {
-        public string UserID => "YeYing";
+        public string UserID => "TestClass";
 
         public IList<Data> Select(IList<Data> oriDatas, IList<string> ids)
         {

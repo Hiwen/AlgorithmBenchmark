@@ -68,6 +68,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ResultCtrls.cs" />
+    <Compile Include="ResultCtrl\ResultCtrl4Chart.xaml.cs">
+      <DependentUpon>ResultCtrl4Chart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResultCtrl\ResultCtrl4Grid.xaml.cs">
+      <DependentUpon>ResultCtrl4Grid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResultCtrl\IResultCtrl.cs" />
+    <Compile Include="ResultCtrl\ResultCtrl4Log.xaml.cs">
+      <DependentUpon>ResultCtrl4Log.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPFControlExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -81,6 +92,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ResultCtrl\ResultCtrl4Chart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResultCtrl\ResultCtrl4Grid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResultCtrl\ResultCtrl4Log.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
