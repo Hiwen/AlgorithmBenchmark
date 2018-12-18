@@ -21,9 +21,9 @@ namespace AlgorithmBenchmark.ResultCtrl
     /// <summary>
     /// ChartResultCtrl.xaml 的交互逻辑
     /// </summary>
-    public partial class ChartResultCtrl : UserControl, IResultCtrl
+    public partial class ResultCtrl4Chart : UserControl, IResultCtrl
     {
-        public ChartResultCtrl()
+        public ResultCtrl4Chart()
         {
             InitializeComponent();
         }

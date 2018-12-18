@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AlgorithmBenchmark.Core;
+using AlgorithmBenchmark.ResultCtrl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using AlgorithmBenchmark.Core;
-using LiveCharts;
-using LiveCharts.Wpf;
 
 namespace AlgorithmBenchmark
 {
@@ -24,141 +22,46 @@ namespace AlgorithmBenchmark
     public partial class MainWindow : Window
     {
         Loader4Algo _loadert = new Loader4Algo();
+        
 
         public MainWindow()
         {
             InitializeComponent();
-            InitWindow();
-
-            DataContext = this;
+            Init();
         }
 
-        public override void EndInit()
+        void Init()
         {
-            base.EndInit();
-        }
+            resBorder.Child = new ResultCtrl4Chart();
 
-        void InvokeThis(Action action)
-        {
-            this.InvokeIfNeeded(action);
-        }
+            var res = new Dictionary<string, TestResult>();
+            res.Add("张三", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 200 });
+            res.Add("李四", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 500 });
+            res.Add("王五", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 400 });
+            UpdateResult(res);
 
-        void InitWindow()
-        {
+            IEnumerable<IAlgorithmInfo> tps = null;
+            var loadTopics = new Action(() => tps = _loadert.GetAllAlgoInfos(
+                p => SetProgress(p)));
 
-            if (ResultCtrls.ResultCtrl != null && ResultCtrls.ResultCtrl.Count() > 0)
+            loadTopics.BeginInvoke(o =>
             {
-                tabResult.Items.Clear();
-                foreach (var item in ResultCtrls.ResultCtrl)
+                InvokeThis(() =>
                 {
-                    tabResult.Items.Add(new TabItem()
+                    if (tps != null)
                     {
-                        Header = item.Title,
-                        Content = item.Ctrl
-                    });
-                }
+                        var lists = new List<AlgoItem>();
 
-                var res = new Dictionary<string, TestResult>();
-                res.Add("张三", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 200 });
-                res.Add("李四", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 500 });
-                res.Add("王五", new TestResult() { MemoryCost = 0, Successed = true, TimeCost = 400 });
-                UpdateResult(res);
-
-                IEnumerable<IAlgorithmInfo> tps = null;
-                var loadTopics = new Action(() => tps = _loadert.GetAllAlgoInfos(
-                    p => SetProgress(p)));
-
-                loadTopics.BeginInvoke(o =>
-                {
-                    InvokeThis(() =>
-                    {
-                        if (tps != null)
+                        foreach (var item in tps)
                         {
-                            cmbAlgos.Items.Clear();
-
-                            foreach (var item in tps)
-                            {
-                                cmbAlgos.Items.Add(new TopicItem(item));
-                            }
-
-                            if (cmbAlgos.Items.Count > 0)
-                            {
-                                cmbAlgos.SelectedIndex = 0;
-                            }
-
-                            cmbAlgos.Items.Add("请您期待其他测试... ...");
+                            lists.Add(new AlgoItem(item));
                         }
-                    });
-                }, null);
-            }
+
+                        algoList.ItemsSource = lists;
+                    }
+                });
+            }, null);
         }
-
-        private void btnBench_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (cmbAlgos.SelectedItem != null)
-            {
-                int testTime = 10;
-                if (!int.TryParse(teTestTime.Text, out testTime))
-                {
-                    MessageBox.Show("您输入的测试次数不正确!", "提示", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                var algo = ((TopicItem)cmbAlgos.SelectedItem).algo;
-                if (algo != null)
-                {
-                    IDictionary<string, TestResult> res = null;
-
-                    var action = new Action(() =>
-                    {
-                        var prcs = _loadert.GetAllAlgos(algo, p => InvokeThis(
-                         () => SetProgress(p)));
-
-                        for (int i = 0; i < testTime; i++)
-                        {
-                            var tester = _loadert.GetTester(algo);
-                            if (tester != null)
-                            {
-                                if (prcs != null)
-                                {
-                                    res = Merge(res, tester.Test(prcs));
-                                }
-                            }
-
-                            SetProgress(i * 100 / testTime);
-                        }
-                    });
-
-                    btnBench.IsEnabled = false;
-
-                    action.BeginInvoke(o => {
-                        InvokeThis(() =>
-                        {
-                            btnBench.IsEnabled = true;
-                            SetProgress(100);
-                            if (res != null && res.Count > 0)
-                            {
-                                UpdateResult(res);
-                                return;
-                            }
-                            else
-                            {
-                                MessageBox.Show("测试失败!", "提示", MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
-                        });
-                    }, null);
-                }
-            }
-        }
-        private void cmbAlgos_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            btnBench.IsEnabled = cmbAlgos.SelectedItem as TopicItem != null;
-        }
-
-        public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
-        public Func<double, string> Formatter { get; set; }
 
         IDictionary<string, TestResult> _result;
 
@@ -166,6 +69,90 @@ namespace AlgorithmBenchmark
         {
             _result = res;
             UpdateResult();
+        }
+
+        private void UpdateResult()
+        {
+            (resBorder.Child as IResultCtrl).ShowResult(_result);
+        }
+
+        void InvokeThis(Action action)
+        {
+            this.InvokeIfNeeded(action);
+        }
+        void SetProgress(int prg)
+        {
+            InvokeThis(() =>
+            {
+                if (prg != progress.Value)
+                {
+                    progress.Value = prg;
+
+                    var vsbl = prg != 100 ? Visibility.Visible : Visibility.Hidden;
+                    if (progress.Visibility != vsbl)
+                    {
+                        progress.Visibility = vsbl;
+                    }
+                }
+            });
+        }
+
+        private void algoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count < 1)
+            {
+                return;
+            }
+
+            int tt = 10;
+            int.TryParse(testTime.Text, out tt);
+
+            var algo = ((AlgoItem)e.AddedItems[0]).algo;
+            if (algo != null)
+            {
+                algoDesc.Text = algo.Desc;
+
+                IDictionary<string, TestResult> res = null;
+
+                var action = new Action(() =>
+                {
+                    var prcs = _loadert.GetAllAlgos(algo, p => InvokeThis(
+                     () => SetProgress(p)));
+
+                    for (int i = 0; i < tt; i++)
+                    {
+                        var tester = _loadert.GetTester(algo);
+                        if (tester != null)
+                        {
+                            if (prcs != null)
+                            {
+                                res = Merge(res, tester.Test(prcs));
+                            }
+                        }
+
+                        SetProgress(i * 100 / tt);
+                    }
+                });
+
+                algoList.IsEnabled = false;
+
+                action.BeginInvoke(o => {
+                    InvokeThis(() =>
+                    {
+                        algoList.IsEnabled = true;
+                        SetProgress(100);
+                        if (res != null && res.Count > 0)
+                        {
+                            UpdateResult(res);
+                            return;
+                        }
+                        else
+                        {
+                            MessageBox.Show("测试失败!", "提示", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    });
+                }, null);
+            }
         }
 
         IDictionary<string, TestResult> Merge(IDictionary<string, TestResult> dst, IDictionary<string, TestResult> src)
@@ -190,45 +177,31 @@ namespace AlgorithmBenchmark
             return dst;
         }
 
-        void SetProgress(int prg)
+        private void resChart_Click(object sender, RoutedEventArgs e)
         {
-            InvokeThis(() =>
-            {
-                if (prg != progress.Value)
-                {
-                    progress.Value = prg;
-
-                    var vsbl = prg != 100 ? Visibility.Visible : Visibility.Hidden;
-                    if (progress.Visibility != vsbl)
-                    {
-                        progress.Visibility = vsbl;
-                    }
-                }
-            });
-        }
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+            resBorder.Child = new ResultCtrl4Chart();
             UpdateResult();
         }
 
-        void UpdateResult()
+        private void resGrid_Click(object sender, RoutedEventArgs e)
         {
-            if (tabResult.SelectedIndex > -1 && tabResult.SelectedIndex < ResultCtrls.ResultCtrl.Count())
-            {
-                ResultCtrls.ResultCtrl[tabResult.SelectedIndex]?.ShowResult(_result);
-            }
+            resBorder.Child = new ResultCtrl4Grid();
+            UpdateResult();
+        }
+
+        private void resLogs_Click(object sender, RoutedEventArgs e)
+        {
+            resBorder.Child = new ResultCtrl4Log();
+            UpdateResult();
         }
     }
 
-    /// <summary>
-    /// 算法Item
-    /// </summary>
-    class TopicItem
+
+    class AlgoItem
     {
         IAlgorithmInfo _topic;
 
-        public TopicItem(IAlgorithmInfo algo)
+        public AlgoItem(IAlgorithmInfo algo)
         {
             _topic = algo;
         }
