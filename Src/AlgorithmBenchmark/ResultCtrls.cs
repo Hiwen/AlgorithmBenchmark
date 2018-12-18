@@ -17,8 +17,8 @@ namespace AlgorithmBenchmark
         /// </summary>
         public static IList<IResultCtrl> ResultCtrl = new [] 
         {
-            new ChartResultCtrl() as IResultCtrl,
-            new GridResultCtrl() as IResultCtrl,
+            new ResultCtrl4Chart() as IResultCtrl,
+            new ResultCtrl4Grid() as IResultCtrl,
             new ResultCtrl4Log() as IResultCtrl,
         };
 

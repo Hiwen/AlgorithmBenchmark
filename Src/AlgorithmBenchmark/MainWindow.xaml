@@ -4,38 +4,56 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AlgorithmBenchmark"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:ResultCtrl="clr-namespace:AlgorithmBenchmark.ResultCtrl"
         mc:Ignorable="d"
-        Title="算法评测工具" Height="450" Width="800">
+        Title="算法测评" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition/>
-            <RowDefinition Height="20"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="96"/>
-            <ColumnDefinition Width="368*"/>
-            <ColumnDefinition Width="79"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="88"/>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Content="选择算法:" HorizontalAlignment="Right" Margin="0,7,3,7" VerticalAlignment="Center" RenderTransformOrigin="0.607,0.03" VerticalContentAlignment="Center" Height="26" Width="61"/>
-        <Label Content="测试次数:" Margin="0,8,3.6,6" VerticalAlignment="Center" RenderTransformOrigin="-0.815,0.408" VerticalContentAlignment="Center" Height="26" Width="58" Grid.Column="2" HorizontalAlignment="Right"/>
-        <ComboBox x:Name="cmbAlgos" Margin="3,9,3.4,10" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="21" Grid.Column="1" SelectionChanged="cmbAlgos_SelectionChanged" />
-        <TextBox x:Name="teTestTime" Height="23" Margin="2.4,9,2.6,8" TextWrapping="Wrap" Text="10" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
-
-        <Button x:Name="btnBench" Content="测试" Margin="3.4,9,2.6,8" VerticalAlignment="Center" Height="23" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4" RenderTransformOrigin="0.502,0.5" Click="btnBench_Click"/>
-        <ProgressBar x:Name="progress" Height="20" Margin="0" Grid.Row="2" VerticalAlignment="Bottom" Grid.ColumnSpan="5" VerticalContentAlignment="Bottom"/>
-        <TabControl x:Name="tabResult" Grid.ColumnSpan="5" Grid.Row="1" RenderTransformOrigin="0.579,0.568" Margin="10,10,9.6,10" SelectionChanged="TabControl_SelectionChanged">
-            <TabItem x:Name="TabChartResult" Header="图示结果">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="16*"/>
-                    </Grid.ColumnDefinitions>
-                </Grid>
-            </TabItem>
-        </TabControl>
+        <Border Grid.Column="0" Background="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Padding="3">选择以下任意一种算法,输入测试数次进行测试:</TextBlock>
+                <Border Grid.Row="1" Height="30" CornerRadius="12" Margin="3" BorderThickness="0" >
+                    <TextBox Name="testTime" Text="10" VerticalAlignment="Center"/>
+                </Border>
+                <ScrollViewer Grid.Row="2">
+                    <Grid>
+                        <ListBox Name="algoList" SelectionChanged="algoList_SelectionChanged"></ListBox>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+        <Border Grid.Column="1" BorderThickness="0 1 0 0" BorderBrush="#E6E6E6">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Padding="3">
+                    <TextBlock Name="algoDesc" TextWrapping ="Wrap"  Height="50" Padding="3">算法描述...</TextBlock>
+                </Border>
+                <Border Grid.Row="1" Padding="3" Height="30" Background="#0398E2" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <Button Name="resChart" Click="resChart_Click" Margin="5 0" Content="图表示图" Height="24" VerticalAlignment="Top" HorizontalAlignment="Left" > </Button>
+                        <Button Name="resGrid" Click="resGrid_Click" Margin="5 0" Content="表格示图" HorizontalAlignment="Left"> </Button>
+                        <Button Name ="resLogs" Click="resLogs_Click" Margin="5 0" Content="日志示图" HorizontalAlignment="Left"> </Button>
+                        <ProgressBar x:Name="progress" HorizontalAlignment="Stretch"  Margin="5 0" Width="295" VerticalAlignment="Center" Height="20" />
+                    </StackPanel>
+                </Border>
+                <Border Name="resBorder" Grid.Row="2" Margin="3" 
+                        Background="White" CornerRadius="3" 
+                    Padding="3"
+                    BorderThickness="1" BorderBrush="#EBEBEB">
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

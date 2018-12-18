@@ -11,9 +11,9 @@ namespace AlgorithmBenchmark.ResultCtrl
     /// <summary>
     /// GridResultCtrl.xaml 的交互逻辑
     /// </summary>
-    public partial class GridResultCtrl : UserControl, IResultCtrl
+    public partial class ResultCtrl4Grid : UserControl, IResultCtrl
     {
-        public GridResultCtrl()
+        public ResultCtrl4Grid()
         {
             InitializeComponent();
             gridRes.AutoGenerateColumns = true;
