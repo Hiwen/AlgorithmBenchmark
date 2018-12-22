@@ -26,7 +26,7 @@ namespace Algo.TopX.Test
 
             _datas = td;
 
-            _x = _random.Next() % 1000 + 50;
+            _x = _random.Next() % 50 + 50;
         }
 
         IList<int> _exampleRes;
