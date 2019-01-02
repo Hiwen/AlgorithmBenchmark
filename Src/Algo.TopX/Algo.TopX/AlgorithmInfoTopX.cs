@@ -9,7 +9,7 @@ namespace Algo.TopX
 {
     public class AlgorithmInfoTopX : IAlgorithmInfo
     {
-        public string Name => "0003.找前X个最数";
+        public string Name => "0003.找前X个最大数";
 
         public string Desc => "在一个集合中找出最大的X个数";
 
