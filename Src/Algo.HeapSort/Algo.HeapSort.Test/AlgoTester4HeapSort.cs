@@ -38,7 +38,7 @@ namespace Algo.HeapSort.Test
         protected override bool TestInner(IAlgorithmHeapSort algo)
         {
             var t = algo.Sort(_datas);
-            if( t != null && t.Count == _exampleRes.Count)
+            if(_exampleRes != null && t != null && t.Count == _exampleRes.Count)
             {
                 for (int i = 0; i < t.Count; i++)
                 {

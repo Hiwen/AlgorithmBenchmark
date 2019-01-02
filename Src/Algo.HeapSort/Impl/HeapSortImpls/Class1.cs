@@ -1,15 +1,16 @@
-﻿using AlgorithmBenchmark.Core;
+﻿using Algo.HeapSort;
+using AlgorithmBenchmark.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Algo.HeapSort.Example
+namespace HeapSortImpls
 {
-    public class HeapSortExample : IAlgorithmHeapSort
+    public class Class1 : IAlgorithmHeapSort
     {
-        public string UserID => AlgoBenchmarkCore.InnerID;
+        public string UserID => "ZhangSan";
 
         public IList<int> Sort(IList<int> datas)
         {
@@ -36,7 +37,7 @@ namespace Algo.HeapSort.Example
             datas[b] = t;
         }
 
-        void MaxHeap(IList<int> datas, int begin, int end )
+        void MaxHeap(IList<int> datas, int begin, int end)
         {
             int dad = begin;
             int son = dad * 2 + 1;
