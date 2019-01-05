@@ -17,7 +17,7 @@ namespace Algo.HeapSort.Test
         {
             var td = new List<int>();
 
-            var dataNum = _random.Next() % 10000 + 10000;
+            var dataNum = _random.Next() % 10000 + 100000;
 
             for (int i = 0; i < dataNum; i++)
             {
@@ -32,12 +32,15 @@ namespace Algo.HeapSort.Test
 
         protected override void ExecExampe(IAlgorithm example)
         {
-            _exampleRes = ((IAlgorithmHeapSort)example).Sort(_datas);
+            var dt = new List<int>(_datas);
+
+            _exampleRes = ((IAlgorithmHeapSort)example).Sort(dt);
         }
 
         protected override bool TestInner(IAlgorithmHeapSort algo)
         {
-            var t = algo.Sort(_datas);
+            var dt = new List<int>(_datas);
+            var t = algo.Sort(dt);
             if(_exampleRes != null && t != null && t.Count == _exampleRes.Count)
             {
                 for (int i = 0; i < t.Count; i++)
