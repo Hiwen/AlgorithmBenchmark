@@ -22,7 +22,7 @@ namespace AlgorithmBenchmark
     public partial class MainWindow : Window
     {
         Loader4Algo _loadert = new Loader4Algo();
-        
+
 
         public MainWindow()
         {
@@ -97,29 +97,37 @@ namespace AlgorithmBenchmark
             });
         }
 
+        IAlgorithmInfo _curAlgo;
+
         private void algoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count < 1)
             {
                 return;
             }
+            
+            _curAlgo = ((AlgoItem)e.AddedItems[0]).algo;
 
-            int tt = 10;
-            int.TryParse(testTime.Text, out tt);
+            TestAlgo();
+        }
 
-            var algo = ((AlgoItem)e.AddedItems[0]).algo;
-            if (algo != null)
+        void TestAlgo()
+        {
+
+            if (_curAlgo != null)
             {
-                algoDesc.Text = algo.Desc;
+                algoDesc.Text = _curAlgo.Desc;
+                int tt = 10;
+                int.TryParse(testTime.Text, out tt);
 
                 IDictionary<string, TestResult> res = null;
 
                 var action = new Action(() =>
                 {
-                    var prcs = _loadert.GetAllAlgos(algo, p => InvokeThis(
+                    var prcs = _loadert.GetAllAlgos(_curAlgo, p => InvokeThis(
                      () => SetProgress(p)));
 
-                    var tester = _loadert.GetTester(algo);
+                    var tester = _loadert.GetTester(_curAlgo);
 
                     InvokeThis(() =>
                     {
@@ -133,11 +141,11 @@ namespace AlgorithmBenchmark
                             gridTestParam.Height = new GridLength(0);
                         }
                     });
-                    
+
 
                     for (int i = 0; i < tt; i++)
                     {
-                        tester = _loadert.GetTester(algo);
+                        tester = _loadert.GetTester(_curAlgo);
                         if (tester != null)
                         {
                             if (prcs != null)
@@ -152,7 +160,8 @@ namespace AlgorithmBenchmark
 
                 algoList.IsEnabled = false;
 
-                action.BeginInvoke(o => {
+                action.BeginInvoke(o =>
+                {
                     InvokeThis(() =>
                     {
                         algoList.IsEnabled = true;
@@ -213,7 +222,7 @@ namespace AlgorithmBenchmark
 
         private void test_Click(object sender, RoutedEventArgs e)
         {
-            //algoList_SelectionChanged(sender, null);
+            TestAlgo();
         }
     }
 
