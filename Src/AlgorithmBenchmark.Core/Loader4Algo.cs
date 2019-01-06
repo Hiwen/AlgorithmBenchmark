@@ -56,7 +56,7 @@ namespace AlgorithmBenchmark.Core
         {
             if (_topics == null)
             {
-                _topics = new List<IAlgorithmInfo>();
+                var tt = new List<IAlgorithmInfo>();
 
                 var fn = this.GetType().Assembly.Location;
                 var path = Path.GetDirectoryName(fn);
@@ -75,11 +75,15 @@ namespace AlgorithmBenchmark.Core
                         {
                             if (t != null)
                             {
-                                _topics.Add(t);
+                                tt.Add(t);
                             }
                         }
                     }
                 }
+
+                tt.Sort((x, y) => string.Compare(x.Name, y.Name));
+
+                _topics = tt;
             }
 
             return _topics;
