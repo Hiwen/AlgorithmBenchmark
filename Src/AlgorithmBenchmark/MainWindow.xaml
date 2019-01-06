@@ -15,40 +15,54 @@
         <Border Grid.Column="0" Background="White">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="*" MinHeight="257"/>
+                    <RowDefinition Height="0" Name="gridTestParam"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
-                <TextBlock Padding="3">选择以下任意一种算法,输入测试数次进行测试:</TextBlock>
-                <Border Grid.Row="1" Height="30" CornerRadius="12" Margin="3" BorderThickness="0" >
-                    <TextBox Name="testTime" Text="10" VerticalAlignment="Center"/>
-                </Border>
-                <ScrollViewer Grid.Row="2">
-                    <Grid>
-                        <ListBox Name="algoList" SelectionChanged="algoList_SelectionChanged"></ListBox>
-                    </Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="35" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Padding="3" Grid.ColumnSpan="3" Margin="0,0,0,0" VerticalAlignment="Center">选择以下任意一种算法,输入测试数次进行测试:</TextBlock>
+                <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3" Margin="0,0,0,0">
+                    <ListBox Name="algoList" SelectionChanged="algoList_SelectionChanged"/>
                 </ScrollViewer>
+                <Border Name="testParam" Grid.Row="2" Grid.ColumnSpan="2" CornerRadius="12" Margin="0,0,0,0" BorderThickness="0" />
+                <Label Content="测试次数:" HorizontalAlignment="Right" Grid.Row="3" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Name="testTime" Text="10" VerticalAlignment="Center" Height="18" Margin="0,0,0,0"/>
+                <Button Name ="test"  Grid.Row="3" Grid.Column="2" Content="=>" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" BorderThickness="0" Width="24" Height="18" Click="test_Click">
+                </Button>
             </Grid>
         </Border>
         <Border Grid.Column="1" BorderThickness="0 1 0 0" BorderBrush="#E6E6E6">
             <Grid >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto" MinHeight="92"></RowDefinition>
+                    <RowDefinition Height="Auto" MinHeight="34.4"></RowDefinition>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Border Padding="3">
-                    <TextBlock Name="algoDesc" TextWrapping ="Wrap"  Height="50" Padding="3">算法描述...</TextBlock>
-                </Border>
-                <Border Grid.Row="1" Padding="3" Height="30" Background="#0398E2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0" Grid.RowSpan="2">
+                    <TextBlock Name="algoDesc" TextAlignment="Left" TextWrapping ="Wrap" Padding="3" ScrollViewer.VerticalScrollBarVisibility="Auto">算法描述...</TextBlock>
+                </ScrollViewer>
+                <Border Grid.Row="1" Padding="3" Background="#0398E2" Margin="0,0,0,0" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                        <Button Name="resChart" Click="resChart_Click" Margin="5 0" Content="图表示图" Height="24" VerticalAlignment="Top" HorizontalAlignment="Left" > </Button>
-                        <Button Name="resGrid" Click="resGrid_Click" Margin="5 0" Content="表格示图" HorizontalAlignment="Left"> </Button>
-                        <Button Name ="resLogs" Click="resLogs_Click" Margin="5 0" Content="日志示图" HorizontalAlignment="Left"> </Button>
-                        <ProgressBar x:Name="progress" HorizontalAlignment="Stretch"  Margin="5 0" Width="295" VerticalAlignment="Center" Height="20" />
+                        <Button Name="resChart" Click="resChart_Click" Margin="5 0" Content="图表示图" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <Button Name="resGrid" Click="resGrid_Click" Margin="5 0" Content="表格示图" HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
+                        <Button Name ="resLogs" Click="resLogs_Click" Margin="5 0" Content="日志示图" HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
                     </StackPanel>
                 </Border>
-                <Border Name="resBorder" Grid.Row="2" Margin="3" 
+                <Border Grid.Row="1" Grid.Column="1" Padding="3" Background="#0398E2" Margin="0,0,0,0" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <ProgressBar x:Name="progress"  Margin="5 0" VerticalAlignment="Center" Height="20" Width="300"/>
+                    </StackPanel>
+                </Border>
+                <Border Name="resBorder" Grid.Row="2" Grid.ColumnSpan="2" Margin="3,7.6,2.6,3.2" 
                         Background="White" CornerRadius="3" 
                     Padding="3"
                     BorderThickness="1" BorderBrush="#EBEBEB">

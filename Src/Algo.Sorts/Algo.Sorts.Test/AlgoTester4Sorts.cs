@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Algo.Sorts.Test
 {
@@ -11,12 +12,36 @@ namespace Algo.Sorts.Test
     {
         IList<int> _datas;
         Random _random = new Random();
+        static Params _params;
+
+        public override UserControl ParamsCtrl
+        {
+            get
+            {
+                if (_params == null)
+                {
+                    _params = new Params();
+                }
+
+                return _params;
+            }
+        }
 
         public AlgoTester4Sorts()
         {
+        }
+
+        IList<int> _exampleRes;
+
+        void InitData()
+        {
             var td = new List<int>();
 
-            var dataNum = _random.Next() % 10000 + 100000;
+            var dn = 10000;
+
+            _params?.InvokeIfNeeded(()=> dn = _params.DataNum);
+            
+            var dataNum = _random.Next() % dn + dn;
 
             for (int i = 0; i < dataNum; i++)
             {
@@ -26,11 +51,10 @@ namespace Algo.Sorts.Test
             _datas = td;
         }
 
-        IList<int> _exampleRes;
-
-
         protected override void ExecExampe(IAlgorithm example)
         {
+            InitData();
+
             var dt = new List<int>(_datas);
 
             _exampleRes = ((IAlgorithmSorts)example).Sort(dt);

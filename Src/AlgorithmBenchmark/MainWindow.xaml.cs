@@ -119,9 +119,25 @@ namespace AlgorithmBenchmark
                     var prcs = _loadert.GetAllAlgos(algo, p => InvokeThis(
                      () => SetProgress(p)));
 
+                    var tester = _loadert.GetTester(algo);
+
+                    InvokeThis(() =>
+                    {
+                        if (tester.ParamsCtrl != null)
+                        {
+                            gridTestParam.Height = new GridLength(tester.ParamsCtrl.Height);
+                            testParam.Child = tester.ParamsCtrl;
+                        }
+                        else
+                        {
+                            gridTestParam.Height = new GridLength(0);
+                        }
+                    });
+                    
+
                     for (int i = 0; i < tt; i++)
                     {
-                        var tester = _loadert.GetTester(algo);
+                        tester = _loadert.GetTester(algo);
                         if (tester != null)
                         {
                             if (prcs != null)
@@ -193,6 +209,11 @@ namespace AlgorithmBenchmark
         {
             resBorder.Child = new ResultCtrl4Log();
             UpdateResult();
+        }
+
+        private void test_Click(object sender, RoutedEventArgs e)
+        {
+            //algoList_SelectionChanged(sender, null);
         }
     }
 

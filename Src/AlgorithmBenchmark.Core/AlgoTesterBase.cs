@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace AlgorithmBenchmark.Core
 {
@@ -25,6 +26,11 @@ namespace AlgorithmBenchmark.Core
         /// </summary>
         /// <param name="example">算法的参考实现</param>
         protected abstract void ExecExampe(IAlgorithm example);
+
+        /// <summary>
+        /// 参数设置控件
+        /// </summary>
+        public virtual UserControl ParamsCtrl => null;
 
         /// <summary>
         /// 执行一个函数并计时

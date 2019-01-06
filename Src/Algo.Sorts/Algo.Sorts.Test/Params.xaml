@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Algo.Sorts.Test.Params"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Algo.Sorts.Test"
+             mc:Ignorable="d" d:DesignWidth="302.235" Height="38.966">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="65"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="数据量:" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Center"/>
+        <TextBox Name="tbDataNum" Grid.Column="1" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" VerticalContentAlignment="Center"
+                 Text="10000"/>
+
+    </Grid>
+</UserControl>

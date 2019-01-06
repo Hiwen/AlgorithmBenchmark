@@ -82,7 +82,6 @@
     <Compile Include="ResultCtrl\ResultCtrl4Log.xaml.cs">
       <DependentUpon>ResultCtrl4Log.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WPFControlExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,6 +146,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AlgorithmBenchmark.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

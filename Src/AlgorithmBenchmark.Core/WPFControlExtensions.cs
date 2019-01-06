@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Windows.Threading;
 
-namespace AlgorithmBenchmark
+namespace AlgorithmBenchmark.Core
 {
     public static class WPFControlExtensions
     {
