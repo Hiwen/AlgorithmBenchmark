@@ -159,12 +159,16 @@ namespace AlgorithmBenchmark
                 });
 
                 algoList.IsEnabled = false;
+                test.IsEnabled = false;
+
+
 
                 action.BeginInvoke(o =>
                 {
                     InvokeThis(() =>
                     {
                         algoList.IsEnabled = true;
+                        test.IsEnabled = true;
                         SetProgress(100);
                         if (res != null && res.Count > 0)
                         {

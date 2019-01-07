@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace Algo.Sorts.Example
 {
     // HeapSort
-    public class SortsExample : IAlgorithmSorts
+    public class SortHeap : IAlgorithmSorts
     {
 
-        public string UserID => AlgoBenchmarkCore.InnerID;
+        public string UserID => "HeapSort";
 
         public IList<int> Sort(IList<int> datas)
         {
