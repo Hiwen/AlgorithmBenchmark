@@ -151,7 +151,7 @@
     <None Include="Resources\right.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\right.png" />
+    <EmbeddedResource Include="Resources\right.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
