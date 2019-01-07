@@ -148,10 +148,10 @@
     <None Include="Resources\AlgorithmBenchmark.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\right.png" />
+    <None Include="Resources\right.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\right.ico" />
+    <None Include="Resources\right.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
