@@ -24,19 +24,13 @@ namespace Algo.Sorts.Example
 
             for (int i = c - 1; i >= 0; i--)
             {
-                Swap(datas, 0, i);
+                datas.Swap(0, i);
                 MaxHeap(datas, 0, i - 1);
             }
 
             return datas;
         }
 
-        void Swap(IList<int> datas, int a, int b)
-        {
-            int t = datas[a];
-            datas[a] = datas[b];
-            datas[b] = t;
-        }
 
         void MaxHeap(IList<int> datas, int begin, int end)
         {
@@ -56,7 +50,7 @@ namespace Algo.Sorts.Example
                 }
                 else
                 {
-                    Swap(datas, dad, son);
+                    datas.Swap(dad, son);
                     dad = son;
                     son = dad * 2 + 1;
                 }

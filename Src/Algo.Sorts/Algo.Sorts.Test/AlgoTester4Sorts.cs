@@ -45,7 +45,7 @@ namespace Algo.Sorts.Test
 
             for (int i = 0; i < dataNum; i++)
             {
-                td.Add(_random.Next());
+                td.Add(_random.Next() % dataNum);
             }
 
             _datas = td;
