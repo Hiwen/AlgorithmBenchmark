@@ -41,7 +41,10 @@ namespace Algo.Sorts.Test
 
             _params?.InvokeIfNeeded(()=> dn = _params.DataNum);
             
+            // dn = 5;
+
             var dataNum = _random.Next() % dn + dn;
+
 
             for (int i = 0; i < dataNum; i++)
             {
